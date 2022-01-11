@@ -41,11 +41,12 @@ class _MyHomePageState extends State<MyHomePage> {
             width: 200,
             height: 200,
             child: MeasurementGauge(
-              value: -5,
-              text: 'temp',
-              minValue: -40.0,
-              maxValue: 30.0,
-              animate: false,
+              value: 6.4,
+              text: 'Ph',
+              minValue: 0,
+              maxValue: 14,
+              secondSegmentStartValue: 4.5,
+              thirdSegmentStartValue: 7.0,
             )),
       ),
     );

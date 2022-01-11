@@ -8,14 +8,25 @@ class MeasurementGauge extends StatelessWidget {
   final double value;
   final double minValue;
   final double maxValue;
+  final double? secondSegmentStartValue;
+  final double? thirdSegmentStartValue;
   final String text;
+  final Color firstSegmentColor;
+  final Color secondSegmentColor;
+  final Color thirdSegmentColor;
+
   const MeasurementGauge({
     Key? key,
-    required this.animate,
+    this.animate = false,
     required this.value,
     this.minValue = 0,
     this.maxValue = 100,
     this.text = '',
+    this.secondSegmentStartValue,
+    this.thirdSegmentStartValue,
+    this.firstSegmentColor = Colors.red,
+    this.secondSegmentColor = Colors.green,
+    this.thirdSegmentColor = Colors.red,
   }) : super(key: key);
 
   @override
@@ -75,12 +86,26 @@ class MeasurementGauge extends StatelessWidget {
 
   /// Create one series with sample hard coded data.
   List<charts.Series<GaugeSegment, String>> _createSampleData() {
+    var range = getRange(minValue, maxValue);
+
+    double firstSegmentSize = secondSegmentStartValue != null
+        ? secondSegmentStartValue! - minValue
+        : range;
+
+    double secondSegmentSize =
+        thirdSegmentStartValue != null && secondSegmentStartValue != null
+            ? thirdSegmentStartValue! - secondSegmentStartValue!
+            : range - firstSegmentSize;
+
+    double thirdSegmentSize = range - firstSegmentSize - secondSegmentSize;
+
     final data = [
-      GaugeSegment('Low', maxValue.round(),
-          charts.ColorUtil.fromDartColor(Colors.green)),
-      // GaugeSegment(
-      //     'Acceptale', 3, charts.ColorUtil.fromDartColor(Colors.green)),
-      // GaugeSegment('High', 7, charts.ColorUtil.fromDartColor(Colors.red)),
+      GaugeSegment('First', firstSegmentSize,
+          charts.ColorUtil.fromDartColor(firstSegmentColor)),
+      GaugeSegment('Second', (secondSegmentSize),
+          charts.ColorUtil.fromDartColor(secondSegmentColor)),
+      GaugeSegment('Third', (thirdSegmentSize),
+          charts.ColorUtil.fromDartColor(thirdSegmentColor)),
     ];
 
     return [
@@ -95,9 +120,19 @@ class MeasurementGauge extends StatelessWidget {
   }
 }
 
+double getRange(double minValue, double maxValue) {
+  if (minValue.isNegative) {
+    return maxValue + minValue.abs();
+  }
+  if (maxValue.isNegative) {
+    return minValue - maxValue;
+  }
+  return maxValue - minValue;
+}
+
 class GaugeSegment {
   final String segment;
-  final int size;
+  final double size;
   final charts.Color color;
 
   GaugeSegment(this.segment, this.size, this.color);
