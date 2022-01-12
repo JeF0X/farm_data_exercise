@@ -3,6 +3,14 @@ import 'dart:math';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
+class GaugeSegment {
+  final String segment;
+  final double size;
+  final charts.Color color;
+
+  GaugeSegment(this.segment, this.size, this.color);
+}
+
 class MeasurementGauge extends StatelessWidget {
   final bool animate;
   final double value;
@@ -31,7 +39,7 @@ class MeasurementGauge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var seriesList = _createSampleData();
+    var seriesList = _createSegmentData();
     var angle = (180 * value) / (minValue.abs() + maxValue.abs()) +
         (180 * minValue.abs()) / (minValue.abs() + maxValue.abs());
 
@@ -84,20 +92,20 @@ class MeasurementGauge extends StatelessWidget {
     );
   }
 
-  /// Create one series with sample hard coded data.
-  List<charts.Series<GaugeSegment, String>> _createSampleData() {
-    var range = getRange(minValue, maxValue);
+  List<charts.Series<GaugeSegment, String>> _createSegmentData() {
+    var rangeLenght = getRangeLenght(minValue, maxValue);
 
     double firstSegmentSize = secondSegmentStartValue != null
         ? secondSegmentStartValue! - minValue
-        : range;
+        : rangeLenght;
 
     double secondSegmentSize =
         thirdSegmentStartValue != null && secondSegmentStartValue != null
             ? thirdSegmentStartValue! - secondSegmentStartValue!
-            : range - firstSegmentSize;
+            : rangeLenght - firstSegmentSize;
 
-    double thirdSegmentSize = range - firstSegmentSize - secondSegmentSize;
+    double thirdSegmentSize =
+        rangeLenght - firstSegmentSize - secondSegmentSize;
 
     final data = [
       GaugeSegment('First', firstSegmentSize,
@@ -120,7 +128,7 @@ class MeasurementGauge extends StatelessWidget {
   }
 }
 
-double getRange(double minValue, double maxValue) {
+double getRangeLenght(double minValue, double maxValue) {
   if (minValue.isNegative) {
     return maxValue + minValue.abs();
   }
@@ -128,12 +136,4 @@ double getRange(double minValue, double maxValue) {
     return minValue - maxValue;
   }
   return maxValue - minValue;
-}
-
-class GaugeSegment {
-  final String segment;
-  final double size;
-  final charts.Color color;
-
-  GaugeSegment(this.segment, this.size, this.color);
 }
