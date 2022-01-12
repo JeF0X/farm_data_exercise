@@ -39,9 +39,12 @@ class MeasurementGauge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double gaugeLenght = 270.0;
     var seriesList = _createSegmentData();
-    var angle = (180 * value) / (minValue.abs() + maxValue.abs()) +
-        (180 * minValue.abs()) / (minValue.abs() + maxValue.abs());
+
+    var angle = (gaugeLenght * value) / getRangeLenght(minValue, maxValue) +
+        (gaugeLenght * minValue.abs()) / getRangeLenght(minValue, maxValue) -
+        (360 - gaugeLenght) / 2;
 
     return Stack(
       alignment: Alignment.center,
@@ -49,10 +52,16 @@ class MeasurementGauge extends StatelessWidget {
         charts.PieChart<String>(
           seriesList,
           animate: animate,
+          layoutConfig: charts.LayoutConfig(
+            leftMarginSpec: charts.MarginSpec.fixedPixel(0),
+            topMarginSpec: charts.MarginSpec.fixedPixel(0),
+            rightMarginSpec: charts.MarginSpec.fixedPixel(0),
+            bottomMarginSpec: charts.MarginSpec.fixedPixel(0),
+          ),
           defaultRenderer: charts.ArcRendererConfig(
             arcWidth: 30,
-            startAngle: pi,
-            arcLength: pi,
+            startAngle: 135 * pi / 180,
+            arcLength: gaugeLenght * pi / 180,
             strokeWidthPx: 0.01,
           ),
         ),
@@ -75,7 +84,7 @@ class MeasurementGauge extends StatelessWidget {
         AspectRatio(
           aspectRatio: 1.0,
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(4.0),
             child: Transform.rotate(
               angle: angle * pi / 180,
               child: const Align(
