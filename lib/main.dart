@@ -38,6 +38,7 @@ final barData = [
   TimeSeriesValues(DateTime(2017, 9, 5), 75),
   TimeSeriesValues(DateTime(2017, 9, 6), 88),
   TimeSeriesValues(DateTime(2017, 9, 7), 65),
+  TimeSeriesValues(DateTime(2017, 9, 9), 65),
 ];
 
 class MyApp extends StatelessWidget {

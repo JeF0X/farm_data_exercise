@@ -22,7 +22,9 @@ class BarChart extends StatelessWidget {
       child: charts.TimeSeriesChart(
         _createSeriesList(data),
         animate: animate,
-        defaultRenderer: charts.BarRendererConfig<DateTime>(),
+        defaultRenderer: charts.BarRendererConfig<DateTime>(
+          barRendererDecorator: charts.BarLabelDecorator<DateTime>(),
+        ),
         defaultInteractions: false,
         behaviors: [charts.SelectNearest(), charts.DomainHighlighter()],
       ),
@@ -35,8 +37,10 @@ class BarChart extends StatelessWidget {
       charts.Series<TimeSeriesValues, DateTime>(
         id: 'Sales',
         colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (TimeSeriesValues sales, _) => sales.time,
-        measureFn: (TimeSeriesValues sales, _) => sales.sales,
+        domainFn: (TimeSeriesValues series, _) => series.time,
+        measureFn: (TimeSeriesValues series, _) => series.value,
+        labelAccessorFn: (TimeSeriesValues series, _) =>
+            series.value.toString(),
         data: data,
       )
     ];
