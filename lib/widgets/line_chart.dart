@@ -44,7 +44,7 @@ class _LineChartState extends State<LineChart> {
         charts.Series<TimeSeriesValues, DateTime>(
           id: index.toString(),
           domainFn: (TimeSeriesValues sales, _) => sales.time,
-          measureFn: (TimeSeriesValues sales, _) => sales.sales,
+          measureFn: (TimeSeriesValues sales, _) => sales.value,
           data: item,
         ),
       );
@@ -62,7 +62,7 @@ class _LineChartState extends State<LineChart> {
     if (selectedDatum.isNotEmpty) {
       time = selectedDatum.first.datum.time;
       for (var datumPair in selectedDatum) {
-        measures[datumPair.series.displayName!] = datumPair.datum.sales;
+        measures[datumPair.series.displayName!] = datumPair.datum.value;
       }
     }
 
