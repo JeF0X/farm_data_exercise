@@ -1,6 +1,9 @@
+import 'package:farm_data_exercise/widgets/bar_chart.dart';
 import 'package:farm_data_exercise/widgets/line_chart.dart';
 import 'package:farm_data_exercise/widgets/measurement_gauge.dart';
 import 'package:flutter/material.dart';
+
+import 'models/time_series_values.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,6 +28,16 @@ final fiData = [
   TimeSeriesValues(DateTime(2017, 9, 26), 33.5),
   TimeSeriesValues(DateTime(2017, 10, 3), 70),
   TimeSeriesValues(DateTime(2017, 10, 10), 24.0),
+];
+
+final barData = [
+  TimeSeriesValues(DateTime(2017, 9, 1), 5),
+  TimeSeriesValues(DateTime(2017, 9, 2), 5),
+  TimeSeriesValues(DateTime(2017, 9, 3), 25),
+  TimeSeriesValues(DateTime(2017, 9, 4), 100),
+  TimeSeriesValues(DateTime(2017, 9, 5), 75),
+  TimeSeriesValues(DateTime(2017, 9, 6), 88),
+  TimeSeriesValues(DateTime(2017, 9, 7), 65),
 ];
 
 class MyApp extends StatelessWidget {
@@ -61,8 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           children: [
-            Card(
-              child: const SizedBox(
+            const Card(
+              child: SizedBox(
                 width: 200,
                 height: 200,
                 child: MeasurementGauge(
@@ -79,6 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
               data: [usData, ukData, fiData],
               textStart: 'ph',
             ),
+            BarChart(data: barData)
           ],
         ),
       ),

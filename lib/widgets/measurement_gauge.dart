@@ -54,7 +54,7 @@ class MeasurementGauge extends StatelessWidget {
           animate: animate,
           layoutConfig: charts.LayoutConfig(
             leftMarginSpec: charts.MarginSpec.fixedPixel(0),
-            topMarginSpec: charts.MarginSpec.fixedPixel(0),
+            topMarginSpec: charts.MarginSpec.fixedPixel(16),
             rightMarginSpec: charts.MarginSpec.fixedPixel(0),
             bottomMarginSpec: charts.MarginSpec.fixedPixel(0),
           ),

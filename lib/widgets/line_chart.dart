@@ -1,4 +1,5 @@
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:farm_data_exercise/models/time_series_values.dart';
 import 'package:flutter/material.dart';
 
 class LineChart extends StatefulWidget {
@@ -118,11 +119,4 @@ class _LineChartState extends State<LineChart> {
       ),
     );
   }
-}
-
-class TimeSeriesValues {
-  final DateTime time;
-  final double sales;
-
-  TimeSeriesValues(this.time, this.sales);
 }
