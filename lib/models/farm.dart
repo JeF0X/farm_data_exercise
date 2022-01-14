@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 class Farm {
   final String id;
   final String name;
@@ -17,8 +19,13 @@ class Farm {
         locationName: locationName ?? this.locationName,
       );
 
-  factory Farm.fromJson(Map<String, dynamic> data) {
-    String establishedString = data['dateTime'] as String? ?? '';
+  @override
+  String toString() {
+    return '\n id: $id \n name: $name \n location: $locationName \n established: $established\n';
+  }
+
+  factory Farm.fromJson(Map<String, dynamic> jsonData) {
+    String establishedString = jsonData['dateTime'] as String? ?? '';
     DateTime? established;
 
     // TODO: Handle exceptions
@@ -26,14 +33,15 @@ class Farm {
       try {
         established = DateTime.parse(establishedString);
       } on FormatException {
+        log('Error formatting json');
         established = null;
       }
     }
 
     return Farm(
-      id: data['farm_id'] as String? ?? '',
-      name: data['name'] as String? ?? '',
-      locationName: data['location'] as String? ?? '',
+      id: jsonData['farm_id'] as String? ?? '',
+      name: jsonData['name'] as String? ?? '',
+      locationName: jsonData['location'] as String? ?? '',
       established: established,
     );
   }
