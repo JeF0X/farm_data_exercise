@@ -5,7 +5,10 @@ class AggregatedSensorData {
   AggregatedSensorData({required this.sensorType, required this.stats});
 
   factory AggregatedSensorData.fromJson(Map<String, dynamic> data) {
-    List<Map<String, dynamic>> statsData = data['stats'];
+    if (data['stats'] is! List<dynamic>) {
+      throw Exception('Json data was not properly formatted');
+    }
+    List<dynamic> statsData = data['stats'];
     List<MonthlySensorData> stats = [];
 
     for (var statData in statsData) {
@@ -17,14 +20,18 @@ class AggregatedSensorData {
       stats: stats,
     );
   }
+  @override
+  String toString() {
+    return '\n $sensorType \n${stats.toString()} ';
+  }
 }
 
 class MonthlySensorData {
-  final String month;
-  final String year;
-  final double average;
-  final double median;
-  final double stantardDeviation;
+  final int month;
+  final int year;
+  final num average;
+  final num median;
+  final num stantardDeviation;
 
   MonthlySensorData({
     required this.month,
@@ -36,11 +43,16 @@ class MonthlySensorData {
 
   factory MonthlySensorData.fromJson(Map<String, dynamic> jsonData) {
     return MonthlySensorData(
-      month: jsonData['month'] as String? ?? '',
-      year: jsonData['year'] as String? ?? '',
-      average: jsonData['average'] as double? ?? 0.0,
-      median: jsonData['median'] as double? ?? 0.0,
-      stantardDeviation: jsonData['stantard_deviation'] as double? ?? 0.0,
+      month: jsonData['month'] as int? ?? 0,
+      year: jsonData['year'] as int? ?? 0,
+      average: jsonData['average'] as num? ?? 0.0,
+      median: jsonData['median'] as num? ?? 0.0,
+      stantardDeviation: jsonData['stantard_deviation'] as num? ?? 0.0,
     );
+  }
+
+  @override
+  String toString() {
+    return '\ndate: $month/$year \naverage: $average \nmedian: $median, \ndeviation: $stantardDeviation\n';
   }
 }
