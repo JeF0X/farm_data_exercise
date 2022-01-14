@@ -25,7 +25,7 @@ class Farm {
   }
 
   factory Farm.fromJson(Map<String, dynamic> jsonData) {
-    String establishedString = jsonData['dateTime'] as String? ?? '';
+    String establishedString = jsonData['established'] as String? ?? '';
     DateTime? established;
 
     // TODO: Handle exceptions
