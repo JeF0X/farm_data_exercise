@@ -1,13 +1,18 @@
 class SensorData {
   final DateTime dateTime;
   final String sensorType;
-  final double value;
+  final num value;
 
   SensorData({
     required this.dateTime,
     required this.sensorType,
     required this.value,
   });
+
+  @override
+  String toString() {
+    return '\n $value\n $dateTime\n $sensorType\n';
+  }
 
   factory SensorData.fromJson(Map<String, dynamic> jsonData) {
     String dateTimeString = jsonData['datetime'];
@@ -16,7 +21,7 @@ class SensorData {
     return SensorData(
       dateTime: dateTime,
       sensorType: jsonData['sensor_type'] as String? ?? '',
-      value: jsonData['value'] as double? ?? 0.0,
+      value: jsonData['value'] as num? ?? 0.0,
     );
   }
 }
