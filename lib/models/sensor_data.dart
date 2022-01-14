@@ -9,14 +9,14 @@ class SensorData {
     required this.value,
   });
 
-  factory SensorData.fromJson(Map<String, dynamic> data) {
-    String dateTimeString = data['datetime'];
+  factory SensorData.fromJson(Map<String, dynamic> jsonData) {
+    String dateTimeString = jsonData['datetime'];
     // TODO: Handle exceptions
     DateTime dateTime = DateTime.parse(dateTimeString);
     return SensorData(
       dateTime: dateTime,
-      sensorType: data['sensor_type'] as String? ?? '',
-      value: data['value'] as double? ?? 0.0,
+      sensorType: jsonData['sensor_type'] as String? ?? '',
+      value: jsonData['value'] as double? ?? 0.0,
     );
   }
 }

@@ -34,13 +34,13 @@ class MonthlySensorData {
     required this.stantardDeviation,
   });
 
-  factory MonthlySensorData.fromJson(Map<String, dynamic> data) {
+  factory MonthlySensorData.fromJson(Map<String, dynamic> jsonData) {
     return MonthlySensorData(
-      month: data['month'] as String? ?? '',
-      year: data['year'] as String? ?? '',
-      average: data['average'] as double? ?? 0.0,
-      median: data['median'] as double? ?? 0.0,
-      stantardDeviation: data['stantard_deviation'] as double? ?? 0.0,
+      month: jsonData['month'] as String? ?? '',
+      year: jsonData['year'] as String? ?? '',
+      average: jsonData['average'] as double? ?? 0.0,
+      median: jsonData['median'] as double? ?? 0.0,
+      stantardDeviation: jsonData['stantard_deviation'] as double? ?? 0.0,
     );
   }
 }
