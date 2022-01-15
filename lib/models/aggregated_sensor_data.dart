@@ -1,5 +1,7 @@
+import 'package:farm_data_exercise/models/sensor_type.dart';
+
 class AggregatedSensorData {
-  final String sensorType;
+  final SensorType sensorType;
   final List<MonthlySensorData> stats;
 
   AggregatedSensorData({required this.sensorType, required this.stats});
@@ -16,7 +18,7 @@ class AggregatedSensorData {
     }
 
     return AggregatedSensorData(
-      sensorType: data['sensor_type'],
+      sensorType: SensorType.fromString(data['sensor_type'] as String? ?? ''),
       stats: stats,
     );
   }

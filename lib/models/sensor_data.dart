@@ -1,6 +1,8 @@
+import 'package:farm_data_exercise/models/sensor_type.dart';
+
 class SensorData {
   final DateTime dateTime;
-  final String sensorType;
+  final SensorType sensorType;
   final num value;
 
   SensorData({
@@ -20,7 +22,8 @@ class SensorData {
     DateTime dateTime = DateTime.parse(dateTimeString);
     return SensorData(
       dateTime: dateTime,
-      sensorType: jsonData['sensor_type'] as String? ?? '',
+      sensorType:
+          SensorType.fromString(jsonData['sensor_type'] as String? ?? ''),
       value: jsonData['value'] as num? ?? 0.0,
     );
   }

@@ -30,14 +30,14 @@ class MeasurementsScreen extends StatelessWidget {
 
             List<SensorData> tempValues = snapshot.data!
                 .where((element) =>
-                    element.sensorType.type == SensorTypes.temperature)
+                    element.sensorType.sensor == Sensor.temperature)
                 .toList();
             List<SensorData> phValues = snapshot.data!
-                .where((element) => element.sensorType.type == SensorTypes.ph)
+                .where((element) => element.sensorType.sensor == Sensor.ph)
                 .toList();
             List<SensorData> rainfallValues = snapshot.data!
-                .where((element) =>
-                    element.sensorType.type == SensorTypes.rainfall)
+                .where(
+                    (element) => element.sensorType.sensor == Sensor.rainfall)
                 .toList();
 
             for (var item in snapshot.data!) {
