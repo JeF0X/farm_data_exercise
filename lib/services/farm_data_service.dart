@@ -73,7 +73,7 @@ class FarmDataService {
   }
 
   Future<AggregatedSensorData> getFarmStatsMonthly(
-      int farmId, String sensorType) async {
+      String farmId, String sensorType) async {
     try {
       var url = _apiUrl + 'farms/$farmId/stats/$sensorType/monthly';
       var data = await httpService.sendRequest(url);
