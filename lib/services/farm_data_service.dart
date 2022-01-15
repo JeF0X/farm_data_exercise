@@ -50,7 +50,7 @@ class FarmDataService {
     }
   }
 
-  Future<List<SensorData>> getFarmStats(int farmId) async {
+  Future<List<SensorData>> getFarmStats(String farmId) async {
     try {
       var url = _apiUrl + 'farms/$farmId/stats';
       var data = await httpService.sendRequest(url);
