@@ -1,16 +1,8 @@
-# farm_data_exercise
+# Farm data pre-assigment exercise
 
-A new Flutter project.
+NOTE: Unfortunatly I started working on this too late and wasn't able to get the app to a shape I'm happy with. For a better example of my skills please check this crypto app exercise I did as pre-assigment for another job: https://github.com/JeF0X/rising_star_crypto_app.
 
-## Getting Started
+## Running the app
+You can try the app at: https://farm-data-exercise.web.app
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The web version uses a fake data service to supply the data so there is no need to run a server. 
