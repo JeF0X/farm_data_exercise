@@ -7,17 +7,19 @@ class BarChart extends StatefulWidget {
   final List<TimeSeriesValues> data;
   final bool animate;
   final double maxHeight;
+  final String textTop;
   final String textStart;
   final String textEnd;
 
-  const BarChart(
-      {Key? key,
-      required this.data,
-      this.animate = false,
-      this.maxHeight = 300.0,
-      this.textStart = '',
-      this.textEnd = ''})
-      : super(key: key);
+  const BarChart({
+    Key? key,
+    required this.data,
+    this.animate = false,
+    this.maxHeight = 300.0,
+    this.textStart = '',
+    this.textEnd = '',
+    this.textTop = '',
+  }) : super(key: key);
 
   @override
   State<BarChart> createState() => _BarChartState();
@@ -53,6 +55,10 @@ class _BarChartState extends State<BarChart> {
           behaviors: [
             charts.SelectNearest(),
             charts.DomainHighlighter(),
+            charts.ChartTitle(widget.textTop,
+                behaviorPosition: charts.BehaviorPosition.top,
+                titleOutsideJustification:
+                    charts.OutsideJustification.middleDrawArea),
             charts.ChartTitle(widget.textStart,
                 behaviorPosition: charts.BehaviorPosition.start,
                 titleOutsideJustification:
@@ -72,12 +78,15 @@ class _BarChartState extends State<BarChart> {
       )
     ];
 
-    children.add(Text(_time?.toString() ?? ''));
+    children.add(Text(_time != null ? '${_time!.month}/${_time!.year}' : ''));
     if (_measures.isEmpty) {
       children.add(const Text(''));
     }
     _measures.forEach((String series, num value) {
-      children.add(Text('$value'));
+      children.add(Text(
+        value.toStringAsFixed(1),
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ));
     });
 
     return ConstrainedBox(

@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 class LineChart extends StatefulWidget {
   final List<List<TimeSeriesValues>> data;
   final bool animate;
+
   final String textStart;
-  final String textBottom;
+  final String textTop;
   final String textEnd;
   final double maxHeight;
 
@@ -15,7 +16,7 @@ class LineChart extends StatefulWidget {
     this.animate = false,
     required this.data,
     this.textStart = '',
-    this.textBottom = '',
+    this.textTop = '',
     this.textEnd = '',
     this.maxHeight = 300.0,
   }) : super(key: key);
@@ -83,6 +84,10 @@ class _LineChartState extends State<LineChart> {
               tickProviderSpec:
                   charts.BasicNumericTickProviderSpec(zeroBound: false)),
           behaviors: [
+            charts.ChartTitle(widget.textTop,
+                behaviorPosition: charts.BehaviorPosition.top,
+                titleOutsideJustification:
+                    charts.OutsideJustification.middleDrawArea),
             charts.ChartTitle(widget.textStart,
                 behaviorPosition: charts.BehaviorPosition.start,
                 titleOutsideJustification:
@@ -102,12 +107,15 @@ class _LineChartState extends State<LineChart> {
       ),
     ];
 
-    children.add(Text(_time?.toString() ?? ''));
+    children.add(Text(_time != null ? '${_time!.month}/${_time!.year}' : ''));
     if (_measures.isEmpty) {
       children.add(const Text(''));
     }
     _measures.forEach((String series, num value) {
-      children.add(Text('$value'));
+      children.add(Text(
+        value.toStringAsFixed(1),
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ));
     });
 
     return ConstrainedBox(
