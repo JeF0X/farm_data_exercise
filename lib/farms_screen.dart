@@ -1,4 +1,4 @@
-import 'package:farm_data_exercise/graphs_screen.dart';
+import 'package:farm_data_exercise/farm_info_screen.dart';
 import 'package:farm_data_exercise/models/farm.dart';
 import 'package:farm_data_exercise/services/farm_data_service.dart';
 import 'package:farm_data_exercise/widgets/farm_list_tile.dart';
@@ -9,8 +9,11 @@ class FarmsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FarmDataService dataService = FarmDataService();
+    FarmDataService dataService = FarmDataService.instance;
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Farms'),
+      ),
       body: FutureBuilder<List<Farm>>(
         future: dataService.getFarms(),
         builder: (BuildContext context, AsyncSnapshot<List<Farm>> snapshot) {
@@ -34,7 +37,7 @@ class FarmsScreen extends StatelessWidget {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => GraphsScreen(
+                      builder: (context) => FarmInfoScreen(
                         farm: farm,
                       ),
                     ),

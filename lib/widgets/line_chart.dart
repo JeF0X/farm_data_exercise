@@ -84,10 +84,6 @@ class _LineChartState extends State<LineChart> {
                 behaviorPosition: charts.BehaviorPosition.start,
                 titleOutsideJustification:
                     charts.OutsideJustification.middleDrawArea),
-            charts.ChartTitle(widget.textBottom,
-                behaviorPosition: charts.BehaviorPosition.bottom,
-                titleOutsideJustification:
-                    charts.OutsideJustification.middleDrawArea),
             charts.ChartTitle(widget.textEnd,
                 behaviorPosition: charts.BehaviorPosition.end,
                 titleOutsideJustification:
@@ -103,13 +99,12 @@ class _LineChartState extends State<LineChart> {
       ),
     ];
 
-    if (_time != null) {
-      children.add(Padding(
-          padding: const EdgeInsets.only(top: 5.0),
-          child: Text(_time.toString())));
+    children.add(Text(_time?.toString() ?? ''));
+    if (_measures.isEmpty) {
+      children.add(const Text(''));
     }
     _measures.forEach((String series, num value) {
-      children.add(Text('$series: $value'));
+      children.add(Text('$value'));
     });
 
     return ConstrainedBox(

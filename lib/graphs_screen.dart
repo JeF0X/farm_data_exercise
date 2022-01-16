@@ -11,47 +11,46 @@ class GraphsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FarmDataService dataService = FarmDataService();
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(farm.name),
-      ),
-      body: FutureBuilder<AggregatedSensorData>(
-        future: dataService.getFarmStatsMonthly(farm.id, 'temperature'),
-        builder: (BuildContext context,
-            AsyncSnapshot<AggregatedSensorData> snapshot) {
-          List<Widget> children = [];
+    FarmDataService dataService = FarmDataService.instance;
+    return FutureBuilder<AggregatedSensorData>(
+      future: dataService.getFarmStatsMonthly(farm.id, 'temperature'),
+      builder:
+          (BuildContext context, AsyncSnapshot<AggregatedSensorData> snapshot) {
+        List<Widget> children = [];
+        // String dropdownValue = 'One';
 
-          if (snapshot.hasData) {
-            List<TimeSeriesValues> values = [];
-            for (var item in snapshot.data!.stats) {
-              values.add(
-                TimeSeriesValues(
-                  DateTime(item.year, item.month),
-                  item.average.toDouble(),
-                ),
-              );
+        if (snapshot.hasData) {
+          List<TimeSeriesValues> values = [];
+          for (var item in snapshot.data!.stats) {
+            values.add(
+              TimeSeriesValues(
+                DateTime(item.year, item.month),
+                item.average.toDouble(),
+              ),
+            );
+          }
+          values.sort((a, b) {
+            if (a.time.isBefore(b.time)) {
+              return -1;
             }
-            values.sort((a, b) {
-              if (a.time.isBefore(b.time)) {
-                return -1;
-              }
-              return 1;
-            });
-            children = [
-              LineChart(
+            return 1;
+          });
+          children = [
+            Card(
+              child: LineChart(
                 data: [values],
                 textStart: 'temperature',
-              )
-            ];
-          }
-          return Center(
-            child: Column(
-              children: children,
+                maxHeight: 250.0,
+              ),
             ),
-          );
-        },
-      ),
+          ];
+        }
+        return Center(
+          child: Column(
+            children: children,
+          ),
+        );
+      },
     );
   }
 }

@@ -11,52 +11,53 @@ class MeasurementsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FarmDataService dataService = FarmDataService();
-    return Scaffold(
-      body: FutureBuilder<List<SensorData>>(
-        future: dataService.getFarmStats(farm.id),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<SensorData>> snapshot) {
-          List<Widget> children = [];
-          // String dropdownValue = 'One';
+    FarmDataService dataService = FarmDataService.instance;
+    return FutureBuilder<List<SensorData>>(
+      future: dataService.getFarmStats(farm.id),
+      builder:
+          (BuildContext context, AsyncSnapshot<List<SensorData>> snapshot) {
+        List<Widget> children = [];
+        // String dropdownValue = 'One';
 
-          if (snapshot.hasData) {
-            snapshot.data!.sort((a, b) {
-              if (a.dateTime.isBefore(b.dateTime)) {
-                return 1;
-              }
-              return -1;
-            });
+        if (snapshot.hasData) {
+          snapshot.data!.sort((a, b) {
+            if (a.dateTime.isBefore(b.dateTime)) {
+              return 1;
+            }
+            return -1;
+          });
 
-            List<SensorData> tempValues = snapshot.data!
-                .where((element) =>
-                    element.sensorType.sensor == Sensor.temperature)
-                .toList();
-            List<SensorData> phValues = snapshot.data!
-                .where((element) => element.sensorType.sensor == Sensor.ph)
-                .toList();
-            List<SensorData> rainfallValues = snapshot.data!
-                .where(
-                    (element) => element.sensorType.sensor == Sensor.rainfall)
-                .toList();
+          var allValues = snapshot.data!;
 
-            for (var item in snapshot.data!) {
-              children.add(
-                ListTile(
+          List<SensorData> tempValues = allValues
+              .where(
+                  (element) => element.sensorType.sensor == Sensor.temperature)
+              .toList();
+          List<SensorData> phValues = allValues
+              .where((element) => element.sensorType.sensor == Sensor.ph)
+              .toList();
+          List<SensorData> rainfallValues = allValues
+              .where((element) => element.sensorType.sensor == Sensor.rainfall)
+              .toList();
+
+          return ListView.builder(
+              itemCount: allValues.length,
+              itemBuilder: (context, index) {
+                var item = allValues[index];
+                return ListTile(
                   leading: Text(
                     '${item.value.toStringAsFixed(1)} ${item.sensorType.suffix}',
                   ),
                   title: Text(item.sensorType.title),
                   subtitle: Text(item.dateTime.toString()),
-                ),
-              );
-            }
-          }
-          return ListView(
-            children: children,
-          );
-        },
-      ),
+                );
+              });
+        }
+        return const Center(
+          child: SizedBox(
+              width: 200.0, height: 200.0, child: CircularProgressIndicator()),
+        );
+      },
     );
   }
 }
