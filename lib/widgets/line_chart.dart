@@ -79,6 +79,9 @@ class _LineChartState extends State<LineChart> {
         child: charts.TimeSeriesChart(
           seriesList,
           animate: widget.animate,
+          primaryMeasureAxis: const charts.NumericAxisSpec(
+              tickProviderSpec:
+                  charts.BasicNumericTickProviderSpec(zeroBound: false)),
           behaviors: [
             charts.ChartTitle(widget.textStart,
                 behaviorPosition: charts.BehaviorPosition.start,
